@@ -1,2 +1,2 @@
-fcrepo4-data/
+fcrepo4-data/*
 !fcrepo4-data/README.md

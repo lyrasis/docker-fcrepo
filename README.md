@@ -16,7 +16,7 @@ Or, for a local volume mount instead of a data container:
 ```bash
 $ mkdir fcrepo-data # the git repository has this folder already
 $ chmod a+w fcrepo-data/ # give the container's jetty user permission to write
-$ docker run --name fcrepo -d -p 8888:8080 -v $(pwd)/fcrepo-data:/opt/data lyrasis:fcrepo:4.3.0
+$ docker run --name fcrepo -d -p 8888:8080 -v $(pwd)/fcrepo-data:/opt/data lyrasis/fcrepo:4.3.0
 $ docker logs -f fcrepo
 ```
 

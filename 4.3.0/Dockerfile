@@ -10,8 +10,7 @@ ENV JETTY_WEBAPPS /var/lib/jetty/webapps
 
 RUN wget -O ${JETTY_WEBAPPS}/${FCREPO_NAME}.war $FCREPO_URL
 RUN mkdir $FCREPO_HOME && chown -R jetty:jetty $FCREPO_HOME
-RUN echo "JAVA_OPTIONS='${JAVA_OPTIONS} -Dfcrepo.home=${FCREPO_HOME}'" >> /etc/default/jetty
 
 VOLUME ["$FCREPO_HOME"]
 
-CMD ["jetty.sh", "run"]
+CMD ["java","-Dfcrepo.home=/opt/data","-jar","/usr/local/jetty/start.jar"]

@@ -1,6 +1,9 @@
 Docker Fedora 4
 ===============
 
+[![](https://badge.imagelayers.io/lyrasis/fcrepo:4.5.0.svg)](https://imagelayers.io/?images=lyrasis/fcrepo:4.5.0 'Get your own badge on imagelayers.io')
+[![Build Status](https://travis-ci.org/lyrasis/docker-fcrepo.svg?branch=master)](https://travis-ci.org/lyrasis/docker-fcrepo)
+
 Run Fedora 4 using docker.
 
 **Quickstart**

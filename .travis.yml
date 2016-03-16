@@ -16,15 +16,11 @@ before_install:
 install:
   - docker build -t fcrepo/release release/
   - docker run --name fcrepo-release -d -p 8080:8080 fcrepo/release
-  - docker build -t fcrepo/latest latest/
-  - docker run --name fcrepo-latest -d -p 9999:8080 fcrepo/latest
 
 before_script:
   - sleep 30
 
 script:
   - docker ps | grep fcrepo-release
-  - docker ps | grep fcrepo-latest
   - curl http://localhost:8080/fcrepo/rest
-  - curl http://localhost:9999/fcrepo/rest
 

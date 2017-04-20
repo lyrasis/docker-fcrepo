@@ -36,6 +36,37 @@ Access (container):
 docker exec -it fcrepo bash
 ```
 
+## Using a production standard database
+
+```
+# note: we're skipping Docker network creation
+# start a MySQL container
+docker run -d \
+  -p 3306:3306 \
+  --name mysql \
+  -e MYSQL_ROOT_PASSWORD=123456 \
+  -e MYSQL_DATABASE=fcrepo \
+  -e MYSQL_USER=fcrepo \
+  -e MYSQL_PASSWORD=fcrepo \
+  mysql:5.7 --innodb_buffer_pool_size=4G --innodb_buffer_pool_instances=4
+
+MYSQL_ADDR=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mysql)
+
+JAVA_OPTIONS="${JAVA_OPTIONS} -Djetty.http.port=9999"
+JAVA_OPTIONS="${JAVA_OPTIONS} -Dfile.encoding=UTF-8"
+JAVA_OPTIONS="${JAVA_OPTIONS} -Dfcrepo.home=/opt/data"
+JAVA_OPTIONS="${JAVA_OPTIONS} -Dfcrepo.modeshape.configuration=classpath:/config/jdbc-mysql/repository.json"
+JAVA_OPTIONS="${JAVA_OPTIONS} -Dfcrepo.mysql.username=fcrepo"
+JAVA_OPTIONS="${JAVA_OPTIONS} -Dfcrepo.mysql.password=fcrepo"
+JAVA_OPTIONS="${JAVA_OPTIONS} -Dfcrepo.mysql.host=${MYSQL_ADDR}"
+JAVA_OPTIONS="${JAVA_OPTIONS} -Dfcrepo.mysql.port=3306"
+
+docker run --name fcrepo -e JAVA_OPTIONS="${JAVA_OPTIONS}" -d -p 9999:9999 lyrasis/fcrepo:4.7.2
+docker logs -f fcrepo
+```
+
+See [Configuring JDBC Object Store](https://wiki.duraspace.org/display/FEDORA4x/Configuring+JDBC+Object+Store) for other options.
+
 ## Local build and run
 
 Clone this repository:

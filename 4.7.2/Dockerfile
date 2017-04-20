@@ -2,11 +2,9 @@ FROM jetty:9-jre8
 
 MAINTAINER mark.cooper@lyrasis.org
 
-ARG FCREPO_VERSION
-
 ENV FCREPO_HOME=/opt/data \
   FCREPO_NAME=fcrepo \
-  FCREPO_VERSION=${FCREPO_VERSION:-4.7.2} \
+  FCREPO_VERSION=4.7.2 \
   JETTY_WEBAPPS=/var/lib/jetty/webapps
 
 ENV JAVA_OPTIONS="-Dfile.encoding=UTF-8 -Dfcrepo.home=${FCREPO_HOME} -Dfcrepo.modeshape.configuration=classpath:/config/file-simple/repository.json" \

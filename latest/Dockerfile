@@ -20,6 +20,6 @@ WORKDIR /fcrepo4
 RUN mvn install
 
 WORKDIR /fcrepo4/fcrepo-webapp
-RUN mkdir $FCREPO_HOME && chown -R jetty:jetty $FCREPO_HOME
+RUN mkdir $FCREPO_HOME
 
 CMD ["mvn","jetty:run"]

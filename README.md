@@ -1,6 +1,6 @@
 # Docker Fedora 4
 
-[![](https://badge.imagelayers.io/lyrasis/fcrepo:4.7.3.svg)](https://imagelayers.io/?images=lyrasis/fcrepo:4.7.3 'Get your own badge on imagelayers.io')
+[![](https://badge.imagelayers.io/lyrasis/fcrepo:4.7.4.svg)](https://imagelayers.io/?images=lyrasis/fcrepo:4.7.4 'Get your own badge on imagelayers.io')
 [![Build Status](https://travis-ci.org/lyrasis/docker-fcrepo.svg?branch=master)](https://travis-ci.org/lyrasis/docker-fcrepo)
 
 Run Fedora 4 using docker.
@@ -8,14 +8,14 @@ Run Fedora 4 using docker.
 ## Quickstart
 
 ```bash
-docker run --name fcrepo -d -p 8080:8080 lyrasis/fcrepo:4.7.3
+docker run --name fcrepo -d -p 8080:8080 lyrasis/fcrepo:4.7.4
 ```
 
 Or, with a data volume container:
 
 ```
-docker run --name fcrepo-data -d -v /opt/data lyrasis/fcrepo:4.7.3 true
-docker run --name fcrepo -d -p 8080:8080 --volumes-from fcrepo-data lyrasis/fcrepo:4.7.3
+docker run --name fcrepo-data -d -v /opt/data lyrasis/fcrepo:4.7.4 true
+docker run --name fcrepo -d -p 8080:8080 --volumes-from fcrepo-data lyrasis/fcrepo:4.7.4
 ```
 
 Or, with a local volume mount:
@@ -23,7 +23,7 @@ Or, with a local volume mount:
 ```bash
 mkdir fcrepo-data # the git repository has this folder already
 chmod a+w fcrepo-data/ # give the container's jetty user permission to write
-docker run --name fcrepo -d -p 8080:8080 -v $(pwd)/fcrepo-data:/opt/data lyrasis/fcrepo:4.7.3
+docker run --name fcrepo -d -p 8080:8080 -v $(pwd)/fcrepo-data:/opt/data lyrasis/fcrepo:4.7.4
 ```
 
 For the latest (available) source build use `lyrasis/fcrepo:latest` for the image name.
@@ -71,7 +71,7 @@ JAVA_OPTIONS="${JAVA_OPTIONS} -Dfcrepo.mysql.password=fcrepo"
 JAVA_OPTIONS="${JAVA_OPTIONS} -Dfcrepo.mysql.host=${MYSQL_ADDR}"
 JAVA_OPTIONS="${JAVA_OPTIONS} -Dfcrepo.mysql.port=3306"
 
-docker run --name fcrepo -e JAVA_OPTIONS="${JAVA_OPTIONS}" -d -p 9999:9999 lyrasis/fcrepo:4.7.3
+docker run --name fcrepo -e JAVA_OPTIONS="${JAVA_OPTIONS}" -d -p 9999:9999 lyrasis/fcrepo:4.7.4
 ```
 
 See [Configuring JDBC Object Store](https://wiki.duraspace.org/display/FEDORA4x/Configuring+JDBC+Object+Store) for other options.
@@ -81,8 +81,8 @@ See [Configuring JDBC Object Store](https://wiki.duraspace.org/display/FEDORA4x/
 Clone this repository:
 
 ```bash
-docker build -t fcrepo:4.7.3 4.7.3/
-docker run --name fcrepo -d -p 8080:8080 fcrepo:4.7.3
+docker build -t fcrepo:4.7.4 4.7.4/
+docker run --name fcrepo -d -p 8080:8080 fcrepo:4.7.4
 docker logs -f fcrepo
 ```
 

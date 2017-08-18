@@ -4,7 +4,7 @@ MAINTAINER mark.cooper@lyrasis.org
 
 ENV FCREPO_HOME=/opt/data \
   FCREPO_NAME=fcrepo \
-  FCREPO_VERSION=4.7.3 \
+  FCREPO_VERSION=4.7.4 \
   JETTY_WEBAPPS=/var/lib/jetty/webapps
 
 ENV JAVA_OPTIONS="-Dfile.encoding=UTF-8 -Dfcrepo.home=${FCREPO_HOME} -Dfcrepo.modeshape.configuration=classpath:/config/file-simple/repository.json" \

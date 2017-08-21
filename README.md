@@ -86,6 +86,13 @@ docker run --name fcrepo -d -p 8080:8080 fcrepo:4.7.4
 docker logs -f fcrepo
 ```
 
+To push this to docker hub follow the standard [docs](https://docs.docker.com/docker-cloud/builds/push-images/):
+
+```bash
+docker tag fcrepo:$VERSION $DOCKER_ID_USER/fcrepo:$VERSION
+docker push $DOCKER_ID_USER/fcrepo:$VERSION
+```
+
 Latest:
 
 ```bash

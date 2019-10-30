@@ -1,88 +1,49 @@
-# Docker Fedora 4
+# Docker Fedora Commons
 
-[![](https://badge.imagelayers.io/lyrasis/fcrepo:4.7.4.svg)](https://imagelayers.io/?images=lyrasis/fcrepo:4.7.4 'Get your own badge on imagelayers.io')
 [![Build Status](https://travis-ci.org/lyrasis/docker-fcrepo.svg?branch=master)](https://travis-ci.org/lyrasis/docker-fcrepo)
 
-Run Fedora 4 using docker.
+Run Fedora Commons using docker.
 
 ## Quickstart
 
 ```bash
-docker run --name fcrepo -d -p 8080:8080 lyrasis/fcrepo:4.7.4
+VERSION=latest
+
+# option 1. standard docker run:
+docker run --name fcrepo -d -p 8080:8080 lyrasis/fcrepo:$VERSION
+
+# option 2. with a data volume container:
+docker run --name fcrepo-data -d -v /opt/data lyrasis/fcrepo:$VERSION true
+docker run --name fcrepo -d -p 8080:8080 --volumes-from fcrepo-data lyrasis/fcrepo:$VERSION
+
+# option 3. with a local volume mount:
+docker run --name fcrepo -d -p 8080:8080 -v $(pwd)/fcrepo-data:/opt/data lyrasis/fcrepo:$VERSION
 ```
 
-Or, with a data volume container:
-
-```
-docker run --name fcrepo-data -d -v /opt/data lyrasis/fcrepo:4.7.4 true
-docker run --name fcrepo -d -p 8080:8080 --volumes-from fcrepo-data lyrasis/fcrepo:4.7.4
-```
-
-Or, with a local volume mount:
-
-```bash
-mkdir fcrepo-data # the git repository has this folder already
-chmod a+w fcrepo-data/ # give the container's jetty user permission to write
-docker run --name fcrepo -d -p 8080:8080 -v $(pwd)/fcrepo-data:/opt/data lyrasis/fcrepo:4.7.4
-```
-
-For the latest (available) source build use `lyrasis/fcrepo:latest` for the image name.
-
-Access (browser):
+Access Fedora Commons ([credentials](release/tomcat-users.xml)):
 
 ```
 http://localhost:8080/fcrepo/rest
 ```
 
-Access (container):
+Access the running container:
 
 ```bash
 docker exec -it fcrepo bash
 ```
 
-Logs:
+Viewing the Logs:
 
 ```
 docker logs -f fcrepo
 ```
 
-## Using a production standard database
-
-```
-# note: we're skipping Docker network creation
-# start a MySQL container
-docker run -d \
-  -p 3306:3306 \
-  --name mysql \
-  -e MYSQL_ROOT_PASSWORD=123456 \
-  -e MYSQL_DATABASE=fcrepo \
-  -e MYSQL_USER=fcrepo \
-  -e MYSQL_PASSWORD=fcrepo \
-  mysql:5.7 --innodb_buffer_pool_size=4G --innodb_buffer_pool_instances=4
-
-MYSQL_ADDR=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mysql)
-
-JAVA_OPTIONS="${JAVA_OPTIONS} -Djetty.http.port=9999"
-JAVA_OPTIONS="${JAVA_OPTIONS} -Dfile.encoding=UTF-8"
-JAVA_OPTIONS="${JAVA_OPTIONS} -Dfcrepo.home=/opt/data"
-JAVA_OPTIONS="${JAVA_OPTIONS} -Dfcrepo.modeshape.configuration=classpath:/config/jdbc-mysql/repository.json"
-JAVA_OPTIONS="${JAVA_OPTIONS} -Dfcrepo.mysql.username=fcrepo"
-JAVA_OPTIONS="${JAVA_OPTIONS} -Dfcrepo.mysql.password=fcrepo"
-JAVA_OPTIONS="${JAVA_OPTIONS} -Dfcrepo.mysql.host=${MYSQL_ADDR}"
-JAVA_OPTIONS="${JAVA_OPTIONS} -Dfcrepo.mysql.port=3306"
-
-docker run --name fcrepo -e JAVA_OPTIONS="${JAVA_OPTIONS}" -d -p 9999:9999 lyrasis/fcrepo:4.7.4
-```
-
-See [Configuring JDBC Object Store](https://wiki.duraspace.org/display/FEDORA4x/Configuring+JDBC+Object+Store) for other options.
-
 ## Local build and run
 
-Clone this repository:
-
 ```bash
-docker build -t fcrepo:4.7.4 4.7.4/
-docker run --name fcrepo -d -p 8080:8080 fcrepo:4.7.4
+CURRENT_RELEASE=5.1.0
+docker build -t fcrepo:${CURRENT_RELEASE} release/
+docker run --name fcrepo -d -p 8080:8080 fcrepo:${CURRENT_RELEASE}
 docker logs -f fcrepo
 ```
 
@@ -96,10 +57,19 @@ docker push $DOCKER_ID_USER/fcrepo:$VERSION
 Latest:
 
 ```bash
-docker build -t fcrepo:latest latest/
-docker run --name fcrepo-dev -d -p 9999:8080 fcrepo:latest
-docker logs -f fcrepo-dev
+docker build -t fcrepo:latest build/
+docker run --name fcrepo -d -p 8080:8080 fcrepo:latest
+docker logs -f fcrepo
 ```
+
+## Using a production standard database
+
+```bash
+IMAGE=lyrasis/fcrepo:latest
+./run_with_db.sh $IMAGE
+```
+
+See [Configuring JDBC Object Store](https://wiki.duraspace.org/display/FEDORA4x/Configuring+JDBC+Object+Store) for other options.
 
 ## Configuration
 

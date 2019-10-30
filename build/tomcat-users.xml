@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tomcat-users xmlns="http://tomcat.apache.org/xml"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://tomcat.apache.org/xml tomcat-users.xsd"
+              version="1.0">
+  <role rolename="fedoraAdmin" />
+  <role rolename="fedoraUser" />
+  <role rolename="manager-gui" />
+  <user name="adminuser" password="password2" roles="fedoraUser" />
+  <user name="fedora4" password="fedora4" roles="manager-gui" />
+  <user name="fedoraAdmin" password="secret3" roles="fedoraAdmin" />
+  <user name="testuser" password="password1" roles="fedoraUser" />
+</tomcat-users>

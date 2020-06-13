@@ -31,6 +31,6 @@ ADD tomcat-users.xml $CATALINA_HOME/conf/tomcat-users.xml
 VOLUME ["$FCREPO_HOME"]
 
 HEALTHCHECK --interval=1m --timeout=5s --start-period=1m --retries=2 \
-  CMD wget -q --spider http://localhost:8080/fcrepo/rest || exit 1
+  CMD wget -q --user fedoraAdmin --password secret3 --spider http://localhost:8080/fcrepo/rest || exit 1
 
 CMD ["catalina.sh", "run"]
